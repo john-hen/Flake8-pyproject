@@ -8,7 +8,7 @@ proposal ([#234]) was closed as "too heated", subsequent feature
 and pull requests were marked as "spam" ([#1332], [#1421], [#1431],
 [#1447], [#1501]).
 
-**Flake8-pyproject** also has bad manners and force-feeds Flake8 the
+*Flake8-pyproject* also has bad manners and force-feeds Flake8 the
 spam it so despises. It is inspired by [pyproject-Flake8], which had
 received little maintenance following its initial commit. The code was
 however completely rewritten and a simple test suite makes it all a

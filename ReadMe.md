@@ -8,7 +8,7 @@ proposal ([#234]) was closed as "too heated", subsequent feature
 and pull requests were marked as "spam" ([#1332], [#1421], [#1431],
 [#1447], [#1501]).
 
-**Flake8-pyproject** also has bad manners and force-feeds Flake8 the
+*Flake8-pyproject* also has bad manners and force-feeds Flake8 the
 spam it so despises. It is inspired by [pyproject-Flake8], which had
 received little maintenance following its initial commit. The code was
 however completely rewritten and a simple test suite makes it all a
@@ -80,7 +80,7 @@ that any one of the possible configuration files are in fact accepted.
     https://img.shields.io/pypi/v/Flake8-pyproject.svg?label=release)](
     https://pypi.python.org/pypi/Flake8-pyproject)
 [![coverage](
-    https://img.shields.io/codecov/c/github/john-hen/Flake8-pyproject?token=lU8tHs0Bpe)](
+    https://img.shields.io/codecov/c/github/john-hen/Flake8-pyproject?token=30Gjak3Ksu)](
     https://codecov.io/gh/john-hen/Flake8-pyproject)
 [![quality](
     https://img.shields.io/lgtm/grade/python/github/john-hen/Flake8-pyproject?label=quality)](
