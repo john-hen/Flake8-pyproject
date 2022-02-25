@@ -2,11 +2,11 @@
 
 import tomli
 from pathlib import Path
-from flake8.main.cli import main       # noqa: F401
-from flake8.options import config
+from flake8.main.cli import main as flake8_main
+from flake8.options import config as flake8_config
 
 
-class PyprojectRawConfigParser(config.configparser.RawConfigParser):
+class PyprojectRawConfigParser(flake8_config.configparser.RawConfigParser):
     """Mixes the TOML parser into Flake8's INI parser."""
 
     def _read(self, stream, path):
@@ -28,7 +28,7 @@ class PyprojectRawConfigParser(config.configparser.RawConfigParser):
             super()._read(stream, path)
 
 
-class PyprojectConfigFileFinder(config.ConfigFileFinder):
+class PyprojectConfigFileFinder(flake8_config.ConfigFileFinder):
     """Adds `pyproject.toml` to the list of accepted configuration files."""
 
     def __init__(self, *args, **kwargs):
@@ -36,5 +36,7 @@ class PyprojectConfigFileFinder(config.ConfigFileFinder):
         self.project_filenames = self.project_filenames + ('pyproject.toml',)
 
 
-config.configparser.RawConfigParser = PyprojectRawConfigParser
-config.ConfigFileFinder             = PyprojectConfigFileFinder
+flake8_config.configparser.RawConfigParser = PyprojectRawConfigParser
+flake8_config.ConfigFileFinder             = PyprojectConfigFileFinder
+
+main = flake8_main
