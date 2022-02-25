@@ -19,45 +19,45 @@ def capture(command, fixture):
 
 
 def test_config_pyproject():
-    output = capture(['pyflake8', 'module.py'], 'config_pyproject')
+    output = capture(['flake8p', 'module.py'], 'config_pyproject')
     assert output == expected
 
 
 def test_config_flake8():
-    output = capture(['pyflake8', 'module.py'], 'config_flake8')
+    output = capture(['flake8p', 'module.py'], 'config_flake8')
     assert output == expected
 
 
 def test_config_setup():
-    output = capture(['pyflake8', 'module.py'], 'config_setup')
+    output = capture(['flake8p', 'module.py'], 'config_setup')
     assert output == expected
 
 
 def test_config_tox():
-    output = capture(['pyflake8', 'module.py'], 'config_tox')
+    output = capture(['flake8p', 'module.py'], 'config_tox')
     assert output == expected
 
 
 def test_config_mixed():
-    output = capture(['pyflake8', 'module.py'], 'config_mixed')
+    output = capture(['flake8p', 'module.py'], 'config_mixed')
     assert output == expected
 
 
 def test_run_main():
-    output = capture([python, '-m', 'pyflake8', 'module.py'], 'config_mixed')
+    output = capture([python, '-m', 'flake8p', 'module.py'], 'config_mixed')
     assert output == expected
 
 
 def test_empty_folder():
-    output = capture(['pyflake8'], 'empty_folder')
+    output = capture(['flake8p'], 'empty_folder')
     assert not output
 
 
 def test_empty_pyproject():
-    output = capture(['pyflake8'], 'empty_pyproject')
+    output = capture(['flake8p'], 'empty_pyproject')
     assert not output
 
 
 def test_empty_tool_section():
-    output = capture(['pyflake8'], 'empty_tool_section')
+    output = capture(['flake8p'], 'empty_tool_section')
     assert not output

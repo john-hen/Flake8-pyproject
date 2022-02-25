@@ -1,4 +1,4 @@
-﻿# pyFlake8
+﻿# Flake8-pyproject / flake8p
 *Runs Flake8 with configuration from `pyproject.toml`*
 
 [Flake8] cannot be configured via `pyproject.toml`, even though
@@ -8,11 +8,11 @@ proposal ([#234]) was closed as "too heated", subsequent feature
 and pull requests were marked as "spam" ([#1332], [#1421], [#1431],
 [#1447], [#1501]).
 
-pyFlake8 also has bad manners and force-feeds Flake8 the spam it so
-despises: `pyproject.toml`. It is inspired by [pyproject-Flake8],
-which had received little maintenance following its initial commit.
-The code was however completely rewritten and a simple test suite
-makes it all a little more palatable.
+**Flake8-pyproject** also has bad manners and force-feeds Flake8 the
+spam it so despises. It is inspired by [pyproject-Flake8], which had
+received little maintenance following its initial commit. The code was
+however completely rewritten and a simple test suite makes it all a
+little more palatable.
 
 [Flake8]:           https://github.com/PyCQA/flake8
 [#234]:             https://github.com/PyCQA/flake8/issues/234
@@ -49,7 +49,7 @@ max-line-length = 88
 count = true
 ```
 
-From then on run `pyflake8` instead of `flake8` to lint the code so
+From then on run `flake8p` instead of `flake8` to lint the code so
  that the configuration in `pyproject.toml` will be used.
 
 [TOML format]: https://toml.io
@@ -60,7 +60,7 @@ From then on run `pyflake8` instead of `flake8` to lint the code so
 Flake8 uses [`RawConfigParser`] from the standard library to parse its
 configuration files, and therefore expects them to have the [INI format].
 
-pyFlake8 adds `pyproject.toml` to Flake8's list of acceptable
+This library adds `pyproject.toml` to Flake8's list of acceptable
 configuration files and monkey-patches Flake8's `RawConfigParser` class
 definition so that, when `pyproject.toml` is being read, the format is
 converted from TOML to INI on the fly. TOML parsing is handled by

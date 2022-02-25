@@ -1,7 +1,7 @@
 # Project information: PyPI and Pip
 
 [project]
-name = 'pyFlake8'
+name = 'Flake8-pyproject'
 authors = [{name='John Hennig'}]
 license = {file='license.txt'}
 keywords = ['Flake8', 'pyproject.toml']
@@ -20,13 +20,13 @@ dependencies = ['Flake8', 'TOMLi']
 dynamic = ['version', 'description']
 
 [project.scripts]
-pyflake8 = 'pyflake8:main'
+flake8p = 'flake8p:main'
 
 [project.optional-dependencies]
 test = ['pyTest', 'pyTest-cov']
 
 [project.urls]
-Source = 'https://github.com/john-hen/pyFlake8'
+Source = 'https://github.com/john-hen/Flake8-pyproject'
 
 
 # Wheel builder: Flit
@@ -36,7 +36,7 @@ requires = ['flit_core>=3.4,<4']
 build-backend = 'flit_core.buildapi'
 
 [tool.flit.module]
-name = 'pyflake8'
+name = 'flake8p'
 
 
 # Code linter: Flake8
@@ -60,4 +60,4 @@ testpaths = ['tests']
 # Code coverage: Coverage.py
 
 [tool.coverage.run]
-source = ['pyflake8']
+source = ['flake8p']
