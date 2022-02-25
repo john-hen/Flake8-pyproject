@@ -76,6 +76,12 @@ that any one of the possible configuration files are in fact accepted.
 [PEP 680]:           https://www.python.org/dev/peps/pep-0680
 
 
-[![PyPI](
+[![release](
     https://img.shields.io/pypi/v/pyFlake8.svg?label=release)](
     https://pypi.python.org/pypi/pyFlake8)
+[![coverage](
+    https://img.shields.io/codecov/c/github/john-hen/pyFlake8?token=lU8tHs0Bpe)](
+    https://codecov.io/gh/john-hen/pyFlake8)
+[![quality](
+    https://img.shields.io/lgtm/grade/python/github/john-hen/pyFlake8?label=quality)](
+    https://lgtm.com/projects/g/john-hen/pyFlake8)
