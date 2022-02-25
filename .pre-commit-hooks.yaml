@@ -1,0 +1,7 @@
+-   id: pyFlake8
+    name: pyFlake8
+    description: 'Hooks into Flake8 to support configuration via `pyproject.toml`.'
+    entry: pyFlake8
+    language: python
+    types: [python]
+    require_serial: true

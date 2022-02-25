@@ -1,0 +1,19 @@
+# Build and test artifacts
+**/__pycache__
+**/.pytest_cache
+dist/
+tools/dist/
+tools/coverage/
+.coverage
+coverage.xml
+
+# Local developer tools and notes
+local/
+ignore/
+.vscode/
+.idea/
+.spyproject
+
+# Files auto-created by operating system
+**/Thumbs.db
+**/.DS_Store

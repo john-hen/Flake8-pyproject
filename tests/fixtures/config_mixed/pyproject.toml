@@ -1,0 +1,5 @@
+[tool.flake8]
+ignore = [
+    'E231',        # Missing whitespace after ',', ';', or ':'.
+    'E241',        # Multiple spaces after ','.
+]

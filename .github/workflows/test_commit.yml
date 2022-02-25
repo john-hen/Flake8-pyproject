@@ -1,0 +1,54 @@
+﻿name: Test commit
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+
+  # Test on all three platforms.
+  platform:
+
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Check out code.
+        uses: actions/checkout@v2
+
+      - name: Set up Python.
+        uses: actions/setup-python@v2
+        with:
+            python-version: "3.7"
+
+      - name: Install package.
+        run:  pip install .[test]
+
+      - name: Run tests.
+        run: pytest
+
+
+  # Test on all supported Python versions.
+  Python:
+
+    strategy:
+        matrix:
+            python: ["3.7", "3.8", "3.9", "3.10"]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code.
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python }}.
+        uses: actions/setup-python@v2
+        with:
+            python-version: ${{ matrix.python }}
+
+      - name: Install package.
+        run:  pip install .[test]
+
+      - name: Run tests.
+        run:  pytest
