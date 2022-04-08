@@ -25,10 +25,11 @@ little more palatable.
 
 
 ## Usage
+First, move your flake8 configuration to pyproject.toml. Then, optionally, include it in your
+git pre-commit hooks.
 
-### adding flake8 to your pyproject.toml
-Say your Flake8 configuration in `.flake8` (or in `tox.ini`, or
-`setup.cfg`) is this:
+### Move flake8 to your pyproject.toml
+Say your Flake8 configuration in `.flake8` (or in `tox.ini`, or `setup.cfg`) is this:
 ```ini
 [flake8]
 ignore = E231, E241
@@ -55,11 +56,12 @@ From then on run `flake8p` instead of `flake8` to lint the code so
 
 [TOML format]: https://toml.io
 
-### including flake8 in your git pre-commit
-Using the pre-commit hook defined in `.pre-commit-hooks.yaml`, add the following to your project's
-pre-commit config:
+### Include flake8p in your git pre-commit
+Automatically apply `flake8p` upon `git commit` by adding the following to your project's pre-commit
+config:
 
 ```yaml
+# your-project-root/.pre-commit-hooks.yaml
 -   repo: https://github.com/john-hen/Flake8-pyproject
     rev: 0.9.0
     hooks:
