@@ -26,6 +26,7 @@ little more palatable.
 
 ## Usage
 
+### adding flake8 to your pyproject.toml
 Say your Flake8 configuration in `.flake8` (or in `tox.ini`, or
 `setup.cfg`) is this:
 ```ini
@@ -54,6 +55,16 @@ From then on run `flake8p` instead of `flake8` to lint the code so
 
 [TOML format]: https://toml.io
 
+### including flake8 in your git pre-commit
+Using the pre-commit hook defined in `.pre-commit-hooks.yaml`, add the following to your project's
+pre-commit config:
+
+```yaml
+-   repo: https://github.com/john-hen/Flake8-pyproject
+    rev: 0.9.0
+    hooks:
+    -   id: Flake8-pyproject
+```
 
 ## Implementation
 
