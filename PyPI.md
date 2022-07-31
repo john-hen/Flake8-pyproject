@@ -9,10 +9,16 @@ and pull requests were marked as "spam" ([#1332], [#1421], [#1431],
 [#1447], [#1501]).
 
 *Flake8-pyproject* also has bad manners and force-feeds Flake8 the
-spam it so despises. It is inspired by [pyproject-Flake8], which had
-received little maintenance following its initial commit. The code was
-however completely rewritten and a simple test suite makes it all a
-little more palatable.
+spam it so despises.
+
+It is inspired by [pyproject-Flake8], which had received little
+maintenance following its initial commit. Though this may have changed
+in the meantime. Consider using it instead, or any of the other
+alternatives mentioned in [issue #2].
+
+Compared to `pyproject-Flake8`, the code here (little as there was to
+begin with) was completely rewritten and a simple test suite makes it
+all a little more palatable.
 
 [Flake8]:           https://github.com/PyCQA/flake8
 [#234]:             https://github.com/PyCQA/flake8/issues/234
@@ -22,12 +28,14 @@ little more palatable.
 [#1447]:            https://github.com/PyCQA/flake8/issues/1447
 [#1501]:            https://github.com/PyCQA/flake8/issues/1501
 [pyproject-flake8]: https://github.com/csachs/pyproject-flake8
+[issue #2]:         https://github.com/john-hen/Flake8-pyproject/issues/2
 
 
 ## Usage
 
 First, move your Flake8 configuration to `pyproject.toml`. Then,
 optionally, add Flake8p as a git pre-commit hook.
+
 
 ### Move the configuration
 
@@ -54,10 +62,11 @@ max-line-length = 88
 count = true
 ```
 
-From then on run `flake8p` instead of `flake8` to lint the code so that
+From then on run `flake8p` instead of `flake8` to lint the code, so that
 the configuration in `pyproject.toml` will be used.
 
 [TOML format]: https://toml.io
+
 
 ### Add pre-commit hook
 
