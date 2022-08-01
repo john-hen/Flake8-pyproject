@@ -14,7 +14,8 @@ module.py:5:14: E221 multiple spaces before operator
 
 def capture(command, fixture):
     folder  = Path(__file__).parent/'fixtures'/fixture
-    process = run(command, stdout=PIPE, text=True, cwd=folder)
+    process = run(command, stdout=PIPE, universal_newlines=True, cwd=folder)
+    # From Python 3.7 on, use `text=True` instead of `universal newlines`.
     return process.stdout.strip()
 
 
