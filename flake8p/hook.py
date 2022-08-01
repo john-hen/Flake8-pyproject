@@ -1,23 +1,26 @@
 ﻿"""Hooks TOML parser into Flake8."""
 
+import flake8.main.cli
+import flake8.options.config
 import tomli
 from pathlib import Path
-from flake8.main.cli import main as flake8_main
-from flake8.options import config as flake8_config
 
 
-class PyprojectRawConfigParser(flake8_config.configparser.RawConfigParser):
-    """Mixes the TOML parser into Flake8's INI parser."""
+# Remember original Flake8 objects.
+flake8_RawConfigParser  = flake8.options.config.configparser.RawConfigParser
+flake8_find_config_file = flake8.options.config._find_config_file
+
+
+# Implement derived objects that are aware of `pyproject.toml`.
+
+class RawConfigParser(flake8_RawConfigParser):
+    """Mixes the TOML parser into Flake8's config-file parser."""
 
     def _read(self, stream, path):
         file = Path(path)
         if file.name == 'pyproject.toml':
             with file.open('rb') as f:
                 settings = tomli.load(f)
-            if 'tool' not in settings:
-                return
-            if 'flake8' not in settings['tool']:
-                return
             if not self.has_section('flake8'):
                 self.add_section('flake8')
             for (key, value) in settings['tool']['flake8'].items():
@@ -28,15 +31,20 @@ class PyprojectRawConfigParser(flake8_config.configparser.RawConfigParser):
             super()._read(stream, path)
 
 
-class PyprojectConfigFileFinder(flake8_config.ConfigFileFinder):
-    """Adds `pyproject.toml` to the list of accepted configuration files."""
+def find_config_file(path):
+    """Convinces Flake8 to prefer `pyproject.toml` over other config files."""
+    file = Path(path)/'pyproject.toml'
+    if file.exists():
+        with file.open('rb') as f:
+            settings = tomli.load(f)
+        if 'tool' in settings and 'flake8' in settings['tool']:
+            return str(file)
+    return flake8_find_config_file(path)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.project_filenames = self.project_filenames + ('pyproject.toml',)
 
+# Monkey-patch Flake8 with our modified objects.
+flake8.options.config.configparser.RawConfigParser = RawConfigParser
+flake8.options.config._find_config_file = find_config_file
 
-flake8_config.configparser.RawConfigParser = PyprojectRawConfigParser
-flake8_config.ConfigFileFinder             = PyprojectConfigFileFinder
-
-main = flake8_main
+# Just call Flake8 when we are called.
+main = flake8.main.cli.main
