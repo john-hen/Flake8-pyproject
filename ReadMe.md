@@ -11,14 +11,10 @@ and pull requests were marked as "spam" ([#1332], [#1421], [#1431],
 *Flake8-pyproject* also has bad manners and force-feeds Flake8 the
 spam it so despises.
 
-It is inspired by [pyproject-Flake8], which had received little
-maintenance following its initial commit. Though this may have changed
-in the meantime. Consider using it instead, or any of the other
-alternatives mentioned in [issue #2].
-
-Compared to `pyproject-Flake8`, the code here (little as there was to
-begin with) was completely rewritten and a simple test suite makes it
-all a little more palatable.
+It is inspired by [pyproject-Flake8], though the code was rewritten
+from scratch and a test suite was added to make maintenance easier.
+You may however consider using the original project instead, or any
+of the other alternatives mentioned in [issue #2].
 
 [Flake8]:           https://github.com/PyCQA/flake8
 [#234]:             https://github.com/PyCQA/flake8/issues/234
@@ -35,9 +31,6 @@ all a little more palatable.
 
 First, move your Flake8 configuration to `pyproject.toml`. Then,
 optionally, add Flake8p as a git pre-commit hook.
-
-
-### Move the configuration
 
 Say your Flake8 configuration in `.flake8` (or in `tox.ini`, or
 `setup.cfg`) is this:
@@ -65,13 +58,8 @@ count = true
 From then on run `flake8p` instead of `flake8` to lint the code, so that
 the configuration in `pyproject.toml` will be used.
 
-[TOML format]: https://toml.io
-
-
-### Add pre-commit hook
-
-Automatically apply `flake8p` upon `git commit` by adding the following
-to your project's pre-commit configuration:
+To have `flake8p` run on every `git commit`, add the following to your
+project's pre-commit configuration:
 
 ```yaml
 # your-project-root/.pre-commit-hooks.yaml
@@ -80,6 +68,8 @@ to your project's pre-commit configuration:
     hooks:
     -   id: Flake8-pyproject
 ```
+
+[TOML format]: https://toml.io
 
 
 ## Implementation
