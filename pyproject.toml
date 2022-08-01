@@ -16,7 +16,7 @@ classifiers = [
 ]
 readme = 'PyPI.md'
 requires-python = '>=3.7'
-dependencies = ['Flake8', 'TOMLi']
+dependencies = ['Flake8<5', 'TOMLi']
 dynamic = ['version', 'description']
 
 [project.scripts]
