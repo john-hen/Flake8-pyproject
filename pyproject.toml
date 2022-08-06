@@ -26,6 +26,9 @@ dependencies = [
 [project.scripts]
 flake8p = 'flake8p:main'
 
+[project.entry-points."flake8.extension"]
+CFG999 = "flake8p.plugin:FlakeConfigToml"
+
 [project.optional-dependencies]
 test = ['pyTest', 'pyTest-cov']
 

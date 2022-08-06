@@ -2,12 +2,9 @@
 
 import flake8.main.cli
 import flake8.options.config
-import sys
-if sys.version_info >= (3, 11):
-    import tomllib as toml
-else:
-    import tomli as toml
 from pathlib import Path
+
+from .util import load_flake8_from_toml, find_and_load_toml_file, normalize_from_toml
 
 
 # Remember original Flake8 objects.
@@ -23,13 +20,11 @@ class RawConfigParser(flake8_RawConfigParser):
     def _read(self, stream, path):
         file = Path(path)
         if file.name == 'pyproject.toml':
-            with file.open('rb') as f:
-                settings = toml.load(f)
+            settings = load_flake8_from_toml(file)
             if not self.has_section('flake8'):
                 self.add_section('flake8')
-            for (key, value) in settings['tool']['flake8'].items():
-                if isinstance(value, (bool, int, float)):
-                    value = str(value)
+            settings = normalize_from_toml(settings)
+            for (key, value) in settings['flake8'].items():
                 self.set('flake8', key, value)
         else:
             super()._read(stream, path)
@@ -37,14 +32,10 @@ class RawConfigParser(flake8_RawConfigParser):
 
 def find_config_file(path):
     """Convinces Flake8 to prefer `pyproject.toml` over other config files."""
-    file = Path(path)/'pyproject.toml'
-    if file.exists():
-        with file.open('rb') as f:
-            settings = toml.load(f)
-        if 'tool' in settings and 'flake8' in settings['tool']:
-            return str(file)
+    config_path, config = find_and_load_toml_file(path)
+    if config_path is not None and "flake8" in config:
+        return str(config_path)
     return flake8_find_config_file(path)
-
 
 # Monkey-patch Flake8 with our modified objects.
 flake8.options.config.configparser.RawConfigParser = RawConfigParser

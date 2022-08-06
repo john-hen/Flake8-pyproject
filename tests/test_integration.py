@@ -62,3 +62,48 @@ def test_empty_pyproject():
 def test_empty_tool_section():
     output = capture(['flake8p'], 'empty_tool_section')
     assert not output
+
+
+def test_plugin_config_pyproject():
+    output = capture(['flake8', '--require-plugins', 'flake8-pyproject', 'module.py'], 'config_pyproject')
+    assert output == expected
+
+
+def test_plugin_config_flake8():
+    output = capture(['flake8', '--require-plugins', 'flake8-pyproject', 'module.py'], 'config_flake8')
+    assert output == expected
+
+
+def test_plugin_config_setup():
+    output = capture(['flake8', '--require-plugins', 'flake8-pyproject', 'module.py'], 'config_setup')
+    assert output == expected
+
+
+def test_plugin_config_tox():
+    output = capture(['flake8', '--require-plugins', 'flake8-pyproject', 'module.py'], 'config_tox')
+    assert output == expected
+
+
+def test_plugin_config_mixed():
+    output = capture(['flake8', '--require-plugins', 'flake8-pyproject', 'module.py'], 'config_mixed')
+    assert output == expected
+
+
+def test_plugin_run_main():
+    output = capture([python, '-m', 'flake8', '--require-plugins', 'flake8-pyproject', 'module.py'], 'config_mixed')
+    assert output == expected
+
+
+def test_plugin_empty_folder():
+    output = capture(['flake8', '--require-plugins', 'flake8-pyproject'], 'empty_folder')
+    assert not output
+
+
+def test_plugin_empty_pyproject():
+    output = capture(['flake8', '--require-plugins', 'flake8-pyproject'], 'empty_pyproject')
+    assert not output
+
+
+def test_plugin_empty_tool_section():
+    output = capture(['flake8', '--require-plugins', 'flake8-pyproject'], 'empty_tool_section')
+    assert not output
