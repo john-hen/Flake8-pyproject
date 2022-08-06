@@ -1,4 +1,4 @@
-﻿# Flake8-pyproject / flake8p
+﻿# Flake8-pyproject (`flake8p`)
 *Runs Flake8 with configuration from `pyproject.toml`*
 
 [Flake8] cannot be configured via `pyproject.toml`, even though
@@ -29,9 +29,6 @@ of the other alternatives mentioned in [issue #2].
 
 ## Usage
 
-First, move your Flake8 configuration to `pyproject.toml`. Then,
-optionally, add Flake8p as a git pre-commit hook.
-
 Say your Flake8 configuration in `.flake8` (or in `tox.ini`, or
 `setup.cfg`) is this:
 ```ini
@@ -58,17 +55,6 @@ count = true
 From then on run `flake8p` instead of `flake8` to lint the code, so that
 the configuration in `pyproject.toml` will be used.
 
-To have `flake8p` run on every `git commit`, add the following to your
-project's pre-commit configuration:
-
-```yaml
-# your-project-root/.pre-commit-hooks.yaml
--   repo: https://github.com/john-hen/Flake8-pyproject
-    rev: 0.9.0
-    hooks:
-    -   id: Flake8-pyproject
-```
-
 [TOML format]: https://toml.io
 
 
@@ -91,6 +77,21 @@ that any one of the possible configuration files are in fact accepted.
 [INI format]:        https://en.wikipedia.org/wiki/INI_file#Format
 [Tomli]:             https://pypi.org/project/tomli/
 [PEP 680]:           https://www.python.org/dev/peps/pep-0680
+
+
+## Pre-commit hook
+
+To have `flake8p` run on every `git commit`, add the following to your
+project's pre-commit configuration `.pre-commit-config.yaml`:
+
+```yaml
+-   repo: https://github.com/john-hen/Flake8-pyproject
+    rev: 1.0.1
+    hooks:
+    -   id: Flake8-pyproject
+```
+
+Change the revision to whatever is the latest release version.
 
 
 [![release](
