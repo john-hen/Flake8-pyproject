@@ -52,8 +52,8 @@ max-line-length = 88
 count = true
 ```
 
-From then on run `flake8p` instead of `flake8` to lint the code, so that
-the configuration in `pyproject.toml` will be used.
+From then on run `flake8p` instead of `flake8` to lint the code, from
+within the same folder that `pyproject.toml` is in.
 
 [TOML format]: https://toml.io
 
