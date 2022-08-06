@@ -2,7 +2,11 @@
 
 import flake8.main.cli
 import flake8.options.config
-import tomli
+import sys
+if sys.version_info >= (3, 11):
+    import tomllib as toml
+else:
+    import tomli as toml
 from pathlib import Path
 
 
@@ -20,7 +24,7 @@ class RawConfigParser(flake8_RawConfigParser):
         file = Path(path)
         if file.name == 'pyproject.toml':
             with file.open('rb') as f:
-                settings = tomli.load(f)
+                settings = toml.load(f)
             if not self.has_section('flake8'):
                 self.add_section('flake8')
             for (key, value) in settings['tool']['flake8'].items():
@@ -36,7 +40,7 @@ def find_config_file(path):
     file = Path(path)/'pyproject.toml'
     if file.exists():
         with file.open('rb') as f:
-            settings = tomli.load(f)
+            settings = toml.load(f)
         if 'tool' in settings and 'flake8' in settings['tool']:
             return str(file)
     return flake8_find_config_file(path)
