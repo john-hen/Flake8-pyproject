@@ -6,7 +6,12 @@ jobs:
 
   # Report code coverage to Codecov.
   coverage:
+
     runs-on: ubuntu-latest
+
+    strategy:
+        matrix:
+            python: ["3.10", "3.11-dev"]
 
     steps:
       - name: Check out code.
@@ -15,7 +20,7 @@ jobs:
       - name: Set up Python.
         uses: actions/setup-python@v4
         with:
-            python-version: "3.10"
+            python-version: ${{ matrix.python }}
 
       - name: Install package.
         run: |
