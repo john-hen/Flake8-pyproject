@@ -1,8 +1,3 @@
-from typing import Any, Dict, List
-import configparser
-
-import flake8.options.config
-
 from .util import monkeypatch
 
 class FlakeConfigToml:

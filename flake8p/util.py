@@ -1,4 +1,4 @@
-from typing import Tuple, Any, Dict, List, Optional
+from typing import Any, Dict, Optional, Tuple
 from pathlib import Path
 import configparser
 import sys
@@ -35,7 +35,7 @@ def normalize_from_toml(settings: Dict[str, Any]) -> Dict[str, Any]:
         output[key] = value
     return {"flake8": output}
 
-def find_and_load_toml_file(_path: Optional[str]=None) -> Tuple[Optional[Path], Dict[str, Any]]:
+def find_and_load_toml_file(_path: Optional[str] = None) -> Tuple[Optional[Path], Dict[str, Any]]:
     if _path:
         path = Path(_path).resolve()
     else:
