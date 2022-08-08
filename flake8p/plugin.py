@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, List
 
 from .util import monkeypatch
 
