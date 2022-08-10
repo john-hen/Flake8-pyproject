@@ -3,6 +3,7 @@
 from subprocess import run, PIPE
 from pathlib import Path
 from sys import executable as python
+from pytest import mark
 
 
 expected = r"""
@@ -19,91 +20,55 @@ def capture(command, fixture):
     return process.stdout.strip()
 
 
-def test_config_pyproject():
-    output = capture(['flake8p', 'module.py'], 'config_pyproject')
+@mark.parametrize('command', ['flake8', 'flake8p'])
+def test_config_pyproject(command):
+    output = capture([command, 'module.py'], 'config_pyproject')
     assert output == expected
 
 
-def test_config_flake8():
-    output = capture(['flake8p', 'module.py'], 'config_flake8')
+@mark.parametrize('command', ['flake8', 'flake8p'])
+def test_config_flake8(command):
+    output = capture([command, 'module.py'], 'config_flake8')
     assert output == expected
 
 
-def test_config_setup():
-    output = capture(['flake8p', 'module.py'], 'config_setup')
+@mark.parametrize('command', ['flake8', 'flake8p'])
+def test_config_setup(command):
+    output = capture([command, 'module.py'], 'config_setup')
     assert output == expected
 
 
-def test_config_tox():
-    output = capture(['flake8p', 'module.py'], 'config_tox')
+@mark.parametrize('command', ['flake8', 'flake8p'])
+def test_config_tox(command):
+    output = capture([command, 'module.py'], 'config_tox')
     assert output == expected
 
 
-def test_config_mixed():
-    output = capture(['flake8p', 'module.py'], 'config_mixed')
+@mark.parametrize('command', ['flake8', 'flake8p'])
+def test_config_mixed(command):
+    output = capture([command, 'module.py'], 'config_mixed')
     assert output == expected
 
 
-def test_run_main():
-    output = capture([python, '-m', 'flake8p', 'module.py'], 'config_mixed')
-    assert output == expected
-
-
-def test_empty_folder():
-    output = capture(['flake8p'], 'empty_folder')
+@mark.parametrize('command', ['flake8', 'flake8p'])
+def test_empty_folder(command):
+    output = capture([command], 'empty_folder')
     assert not output
 
 
-def test_empty_pyproject():
-    output = capture(['flake8p'], 'empty_pyproject')
+@mark.parametrize('command', ['flake8', 'flake8p'])
+def test_empty_pyproject(command):
+    output = capture([command], 'empty_pyproject')
     assert not output
 
 
-def test_empty_tool_section():
-    output = capture(['flake8p'], 'empty_tool_section')
+@mark.parametrize('command', ['flake8', 'flake8p'])
+def test_empty_tool_section(command):
+    output = capture([command], 'empty_tool_section')
     assert not output
 
 
-def test_plugin_config_pyproject():
-    output = capture(['flake8', '--require-plugins', 'flake8-pyproject', 'module.py'], 'config_pyproject')
+@mark.parametrize('command', ['flake8', 'flake8p'])
+def test_run_main(command):
+    output = capture([python, '-m', command, 'module.py'], 'config_mixed')
     assert output == expected
-
-
-def test_plugin_config_flake8():
-    output = capture(['flake8', '--require-plugins', 'flake8-pyproject', 'module.py'], 'config_flake8')
-    assert output == expected
-
-
-def test_plugin_config_setup():
-    output = capture(['flake8', '--require-plugins', 'flake8-pyproject', 'module.py'], 'config_setup')
-    assert output == expected
-
-
-def test_plugin_config_tox():
-    output = capture(['flake8', '--require-plugins', 'flake8-pyproject', 'module.py'], 'config_tox')
-    assert output == expected
-
-
-def test_plugin_config_mixed():
-    output = capture(['flake8', '--require-plugins', 'flake8-pyproject', 'module.py'], 'config_mixed')
-    assert output == expected
-
-
-def test_plugin_run_main():
-    output = capture([python, '-m', 'flake8', '--require-plugins', 'flake8-pyproject', 'module.py'], 'config_mixed')
-    assert output == expected
-
-
-def test_plugin_empty_folder():
-    output = capture(['flake8', '--require-plugins', 'flake8-pyproject'], 'empty_folder')
-    assert not output
-
-
-def test_plugin_empty_pyproject():
-    output = capture(['flake8', '--require-plugins', 'flake8-pyproject'], 'empty_pyproject')
-    assert not output
-
-
-def test_plugin_empty_tool_section():
-    output = capture(['flake8', '--require-plugins', 'flake8-pyproject'], 'empty_tool_section')
-    assert not output
