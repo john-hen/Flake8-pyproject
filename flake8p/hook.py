@@ -1,53 +1,71 @@
 ﻿"""Hooks TOML parser into Flake8."""
 
-from . import util
+########################################
+# Imports                              #
+########################################
 
 import flake8.main.cli
 import flake8.options.config
+import sys
+if sys.version_info >= (3, 11):
+    import tomllib as toml
+else:
+    import tomli as toml
+import configparser
 from pathlib import Path
-from typing import Any, List
 
 
-# Remember original Flake8 objects.
-flake8_RawConfigParser  = flake8.options.config.configparser.RawConfigParser
-flake8_find_config_file = flake8.options.config._find_config_file
+########################################
+# Hook                                 #
+########################################
+
+# Remember original Flake8 object.
+flake8_parse_config = flake8.options.config.parse_config
 
 
-# Implement derived objects that are aware of `pyproject.toml`.
+def parse_config(option_manager, cfg, cfg_dir):
+    """
+    Overrides Flake8's configuration parsing.
 
-class RawConfigParser(flake8_RawConfigParser):
-    """Mixes the TOML parser into Flake8's config-file parser."""
+    If we discover `pyproject.toml` in the current folder, we discard
+    anything that may have been read from whatever other configuration
+    file and read the `tool.flake8` section in `pyproject.toml` instead.
+    """
+    file = Path.cwd()/'pyproject.toml'
+    if file.exists():
+        with file.open('rb') as stream:
+            pyproject = toml.load(stream)
+        if 'tool' in pyproject and 'flake8' in pyproject['tool']:
+            parser  = configparser.RawConfigParser()
+            section = 'flake8'
+            parser.add_section(section)
+            for (key, value) in pyproject['tool']['flake8'].items():
+                if isinstance(value, (bool, int, float)):
+                    value = str(value)
+                parser.set(section, key, value)
+            (cfg, cfg_dir) = (parser, str(file.resolve().parent))
+    return flake8_parse_config(option_manager, cfg, cfg_dir)
 
-    def _read(self, stream, path):
-        file = Path(path)
-        if file.name == 'pyproject.toml':
-            settings = util.load_flake8_from_toml(file)
-            if not self.has_section('flake8'):
-                self.add_section('flake8')
-            settings = util.normalize_from_toml(settings)
-            for (key, value) in settings['flake8'].items():
-                self.set('flake8', key, value)
-        else:
-            super()._read(stream, path)
 
-
-def find_config_file(path):
-    """Convinces Flake8 to prefer `pyproject.toml` over other config files."""
-    config_path, config = util.find_and_load_toml_file(path)
-    if config_path is not None and "flake8" in config:
-        return str(config_path)
-    return flake8_find_config_file(path)
-
-# Monkey-patch Flake8 with our modified objects.
-flake8.options.config.configparser.RawConfigParser = RawConfigParser
-flake8.options.config._find_config_file = find_config_file
-
-# Just call Flake8 when we are called.
-main = flake8.main.cli.main
-
+########################################
+# Plug-in                              #
+########################################
 
 class Plugin:
     """Installs the hook when called via `flake8` itself."""
 
-    def add_options(self, *args):
-        util.monkeypatch()
+    def add_options(self):
+        flake8.options.config.parse_config = parse_config
+
+
+########################################
+# Main                                 #
+########################################
+
+# Also call Flake8 when we are called via our own `flake8p` entry point.
+# We keep this entry point alive for backward compatibility. And also
+# in case the plug-in hook breaks, so users have something to fall back
+# on that would be easier to fix in our own code. At this point, however,
+# we just call Flake8 directly, which will then load the above hook via
+# the plug-in mechanism.
+main = flake8.main.cli.main
