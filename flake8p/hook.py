@@ -47,20 +47,7 @@ main = flake8.main.cli.main
 
 
 class Plugin:
-    # pylint: disable=no-self-use
-    """
-    Flake8 plugin to load a `pyproject.toml` file from the current directory.
-    """
-    # Pylint warning disabled because this is a plugin and these methods
-    # need to be present...but we don't need to use `self`.
-    def __init__(self, tree):
-        pass
-
-    def __iter__(self):
-        raise StopIteration()
-
-    def run(self, *args) -> List[Any]:
-        return []
+    """Installs the hook when called via `flake8` itself."""
 
     def add_options(self, *args):
         util.monkeypatch()
