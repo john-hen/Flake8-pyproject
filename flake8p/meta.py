@@ -2,6 +2,6 @@
 
 title     = 'Flake8-pyproject'
 synopsis  = 'Runs Flake8 with configuration from pyproject.toml.'
-version   = '1.0.1'
+version   = '1.1.0'
 author    = 'John Hennig'
 license   = 'MIT'
