@@ -13,7 +13,7 @@ spam it so despises.
 
 It is inspired by [pyproject-Flake8], though the code was rewritten
 from scratch, a test suite was added to make maintenance easier, and
-a Flake8's plug-in makes this work with the regular `flake8` command.
+a Flake8 plug-in makes this work with the regular `flake8` command.
 
 [Flake8]:           https://github.com/PyCQA/flake8
 [#234]:             https://github.com/PyCQA/flake8/issues/234
