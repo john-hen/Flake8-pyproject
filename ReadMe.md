@@ -1,5 +1,5 @@
-﻿# Flake8-pyproject (`flake8p`)
-*Runs Flake8 with configuration from `pyproject.toml`*
+﻿# Flake8-pyproject
+*Flake8 plug-in loading the configuration from `pyproject.toml`*
 
 [Flake8] cannot be configured via `pyproject.toml`, even though
 virtually all other Python dev tools have adopted it as the central
@@ -12,9 +12,8 @@ and pull requests were marked as "spam" ([#1332], [#1421], [#1431],
 spam it so despises.
 
 It is inspired by [pyproject-Flake8], though the code was rewritten
-from scratch and a test suite was added to make maintenance easier.
-You may however consider using the original project instead, or any
-of the other alternatives mentioned in [issue #2].
+from scratch, a test suite was added to make maintenance easier, and
+a Flake8's plug-in makes this work with the regular `flake8` command.
 
 [Flake8]:           https://github.com/PyCQA/flake8
 [#234]:             https://github.com/PyCQA/flake8/issues/234
@@ -24,7 +23,6 @@ of the other alternatives mentioned in [issue #2].
 [#1447]:            https://github.com/PyCQA/flake8/issues/1447
 [#1501]:            https://github.com/PyCQA/flake8/issues/1501
 [pyproject-flake8]: https://github.com/csachs/pyproject-flake8
-[issue #2]:         https://github.com/john-hen/Flake8-pyproject/issues/2
 
 
 ## Usage
@@ -52,8 +50,13 @@ max-line-length = 88
 count = true
 ```
 
-From then on run `flake8p` instead of `flake8` to lint the code, from
-within the same folder that `pyproject.toml` is in.
+Then run `flake8` in the project root folder, where `pyproject.toml`
+is located.
+
+For compatibility with earlier versions of this package, and perhaps
+extra reliability in terms of possible future breakage of the plug-in
+hook, the package also provides a `flake8p` command that could be
+called alternatively to lint the code.
 
 [TOML format]: https://toml.io
 
@@ -61,17 +64,22 @@ within the same folder that `pyproject.toml` is in.
 ## Implementation
 
 Flake8 uses [`RawConfigParser`] from the standard library to parse its
-configuration files, and therefore expects them to have the [INI format].
+configuration files, and therefore expects them to have the [INI
+format].
 
-This library adds `pyproject.toml` to Flake8's list of acceptable
-configuration files and monkey-patches Flake8's `RawConfigParser` class
-definition so that, when `pyproject.toml` is being read, the format is
-converted from TOML to INI on the fly. TOML parsing is handled by
-[Tomli], which will be part of the standard library as of Python 3.11
-([PEP 680]).
+This library hooks into Flake8's plug-in mechanism to load the
+configuration from `pyproject.toml` instead, *if* it finds such a file
+in the current folder (working directory). It then creates a
+`RawConfigParser` instance, converting from the TOML input format,
+and passes it on to Flake8 while discarding configuration options that
+would otherwise be sourced from elsewhere.
+
+TOML parsing is handled by [Tomli], which will be part of the standard
+library as of Python 3.11 ([PEP 680]).
 
 A few very simple integration tests round out the package, making sure
-that any one of the possible configuration files are in fact accepted.
+that any one of the possible configuration files are in fact accepted
+when `pyproject.toml` isn't found.
 
 [`RawConfigParser`]: https://docs.python.org/3/library/configparser.html#configparser.RawConfigParser
 [INI format]:        https://en.wikipedia.org/wiki/INI_file#Format
@@ -81,8 +89,9 @@ that any one of the possible configuration files are in fact accepted.
 
 ## Pre-commit hook
 
-To have `flake8p` run on every `git commit`, add the following to your
-project's pre-commit configuration `.pre-commit-config.yaml`:
+When using the `flake8p` (not `flake8`) entry point, and you want to
+run it on every `git commit`, add the following to your project's
+pre-commit configuration `.pre-commit-config.yaml`:
 
 ```yaml
 -   repo: https://github.com/john-hen/Flake8-pyproject
@@ -92,6 +101,9 @@ project's pre-commit configuration `.pre-commit-config.yaml`:
 ```
 
 Change the revision to whatever is the latest release version.
+
+Note that you could just use the pre-commit hook for Flake8 itself,
+and make sure this package here is installed, to get the same outcome.
 
 
 [![release](
