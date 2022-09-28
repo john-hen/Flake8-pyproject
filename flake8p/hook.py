@@ -34,13 +34,8 @@ def parse_config(option_manager, cfg, cfg_dir):
     args = vars(option_manager.parser.parse_args())
     custom_config_file = args.get('pyproject_file')
 
-    # absolute path
-    if custom_config_file and custom_config_file.startswith('/'):
+    if custom_config_file:
         file = Path(custom_config_file)
-    # relative path
-    elif custom_config_file:
-        file = Path.cwd() / custom_config_file
-    # default
     else:
         file = Path.cwd() / 'pyproject.toml'
 
