@@ -23,7 +23,7 @@ jobs:
             python-version: "3.10"
 
       - name: Install package.
-        run:  pip install .[test]
+        run:  pip install .[dev]
 
       - name: Run tests.
         run: pytest
@@ -34,7 +34,7 @@ jobs:
 
     strategy:
         matrix:
-            python: ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11-dev"]
+            python: ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
 
     runs-on: ubuntu-latest
 
@@ -48,7 +48,7 @@ jobs:
             python-version: ${{ matrix.python }}
 
       - name: Install package.
-        run:  pip install .[test]
+        run:  pip install .[dev]
 
       - name: Run tests.
         run:  pytest

@@ -16,11 +16,17 @@ classifiers = [
 ]
 readme = 'PyPI.md'
 dynamic = ['version', 'description']
-requires-python = '>=3.6'
+requires-python = '>= 3.6'
 dependencies = [
     'Flake8 >= 5, < 6',
     'TOMLi; python_version < "3.11"',
     'TOMLi < 2; python_version < "3.7"',
+]
+
+[project.optional-dependencies]
+dev = [
+    'pyTest',
+    'pyTest-cov',
 ]
 
 [project.scripts]
@@ -29,9 +35,6 @@ flake8p = 'flake8p:main'
 [project.entry-points.'flake8.report']
 Flake8-pyproject = 'flake8p:Plugin'
 
-[project.optional-dependencies]
-test = ['pyTest', 'pyTest-cov']
-
 [project.urls]
 Source = 'https://github.com/john-hen/Flake8-pyproject'
 
@@ -39,7 +42,7 @@ Source = 'https://github.com/john-hen/Flake8-pyproject'
 # Wheel builder: Flit
 
 [build-system]
-requires = ['flit_core>=3.4,<4']
+requires = ['flit_core >= 3.4']
 build-backend = 'flit_core.buildapi'
 
 [tool.flit.module]
@@ -51,10 +54,12 @@ name = 'flake8p'
 [tool.flake8]
 exclude = ['tests/fixtures', 'local', 'ignore']
 ignore = [
-    'E221',        # Multiple spaces before operator.
-    'E226',        # Missing whitespace around arithmetic operator.
+    'E221',                  # Multiple spaces before operator.
+    'E226',                  # Missing whitespace around arithmetic operator.
 ]
-per-file-ignores = ['__init__.py:F401']
+per-file-ignores = [
+    '__init__.py:F401',      # Module imported but unused.
+]
 
 
 # Test runner: pyTest
