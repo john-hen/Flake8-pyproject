@@ -1,10 +1,10 @@
 ﻿"""Integration tests for the package."""
 
-from subprocess import run, PIPE
 from pathlib import Path
+from subprocess import PIPE, run
 from sys import executable as python
-from pytest import mark
 
+from pytest import mark
 
 expected = r"""
 module.py:1:71: E501 line too long (77 > 70 characters)
@@ -71,4 +71,24 @@ def test_empty_tool_section(command):
 @mark.parametrize('command', ['flake8', 'flake8p'])
 def test_run_main(command):
     output = capture([python, '-m', command, 'module.py'], 'config_mixed')
+    assert output == expected
+
+
+@mark.parametrize('command', ['flake8', 'flake8p'])
+def test_custom_file_target_relative_path(command):
+    output = capture(
+        [command, '--pyproject-file=flake8.toml', 'module.py'],
+        'config_custom_file',
+    )
+    assert output == expected
+
+
+@mark.parametrize('command', ['flake8', 'flake8p'])
+def test_custom_file_target_absolut_path(command):
+    fixture = 'config_custom_file'
+    file_path  = Path(__file__).parent/'fixtures'/fixture/'flake8.toml'
+    output = capture(
+        [command, '--pyproject-file', file_path, 'module.py'],
+        fixture,
+    )
     assert output == expected

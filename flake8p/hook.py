@@ -1,4 +1,4 @@
-﻿"""Hooks TOML parser into Flake8."""
+"""Hooks TOML parser into Flake8."""
 
 ########################################
 # Imports                              #
@@ -31,7 +31,14 @@ def parse_config(option_manager, cfg, cfg_dir):
     anything that may have been read from whatever other configuration
     file and read the `tool.flake8` section in `pyproject.toml` instead.
     """
-    file = Path.cwd()/'pyproject.toml'
+    args = vars(option_manager.parser.parse_args())
+    custom_config_file = args.get('pyproject_file')
+
+    if custom_config_file:
+        file = Path(custom_config_file)
+    else:
+        file = Path.cwd() / 'pyproject.toml'
+
     if file.exists():
         with file.open('rb') as stream:
             pyproject = toml.load(stream)
@@ -44,6 +51,9 @@ def parse_config(option_manager, cfg, cfg_dir):
                     value = str(value)
                 parser.set(section, key, value)
             (cfg, cfg_dir) = (parser, str(file.resolve().parent))
+    elif custom_config_file:
+        raise FileNotFoundError
+
     return flake8_parse_config(option_manager, cfg, cfg_dir)
 
 
@@ -54,8 +64,20 @@ def parse_config(option_manager, cfg, cfg_dir):
 class Plugin:
     """Installs the hook when called via `flake8` itself."""
 
-    def add_options(self):
+    @classmethod
+    def add_options(cls, parser):
         flake8.options.config.parse_config = parse_config
+
+        # Adding pyproject file option
+        parser.add_option(
+            '--pyproject-file',
+            metavar='PYPROJECT_TOML',
+            default=None,
+            action='store',
+            parse_from_config=True,
+            help="Path to TOML configuration file (overrides the "
+            "default 'pyproject.toml'",
+        )
 
 
 ########################################
