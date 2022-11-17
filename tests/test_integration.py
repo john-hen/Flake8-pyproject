@@ -13,8 +13,9 @@ module.py:5:14: E221 multiple spaces before operator
 """.strip()
 
 
-def capture(command, fixture):
-    folder  = Path(__file__).parent/'fixtures'/fixture
+def capture(command, folder):
+    if isinstance(folder, str):
+        folder = Path(__file__).parent/'fixtures'/folder
     process = run(command, stdout=PIPE, universal_newlines=True, cwd=folder)
     # From Python 3.7 on, use `text=True` instead of `universal newlines`.
     return process.stdout.strip()
@@ -51,6 +52,18 @@ def test_config_mixed(command):
 
 
 @mark.parametrize('command', ['flake8', 'flake8p'])
+def test_config_toml(command):
+    here = Path(__file__).parent
+    file = here/'fixtures'/'config_toml'/'flake8.toml'
+    output = capture([command, f'--toml-config={file.name}', 'module.py'],
+                     'config_toml')
+    assert output == expected
+    output = capture([command, f'--toml-config={file.resolve()}', 'module.py'],
+                     'config_toml')
+    assert output == expected
+
+
+@mark.parametrize('command', ['flake8', 'flake8p'])
 def test_empty_folder(command):
     output = capture([command], 'empty_folder')
     assert not output
@@ -71,24 +84,4 @@ def test_empty_tool_section(command):
 @mark.parametrize('command', ['flake8', 'flake8p'])
 def test_run_main(command):
     output = capture([python, '-m', command, 'module.py'], 'config_mixed')
-    assert output == expected
-
-
-@mark.parametrize('command', ['flake8', 'flake8p'])
-def test_custom_file_target_relative_path(command):
-    output = capture(
-        [command, '--toml-config=flake8.toml', 'module.py'],
-        'config_custom_file',
-    )
-    assert output == expected
-
-
-@mark.parametrize('command', ['flake8', 'flake8p'])
-def test_custom_file_target_absolut_path(command):
-    fixture = 'config_custom_file'
-    file_path  = Path(__file__).parent/'fixtures'/fixture/'flake8.toml'
-    output = capture(
-        [command, '--toml-config', file_path, 'module.py'],
-        fixture,
-    )
     assert output == expected

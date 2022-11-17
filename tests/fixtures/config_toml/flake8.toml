@@ -1,0 +1,8 @@
+[tool.flake8]
+ignore = [
+    'E231',        # Missing whitespace after ',', ';', or ':'.
+    'E241',        # Multiple spaces after ','.
+]
+per-file-ignores = ['module.py:F401']
+max-line-length = 70
+count = true
