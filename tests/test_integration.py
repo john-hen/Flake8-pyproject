@@ -77,7 +77,7 @@ def test_run_main(command):
 @mark.parametrize('command', ['flake8', 'flake8p'])
 def test_custom_file_target_relative_path(command):
     output = capture(
-        [command, '--pyproject-file=flake8.toml', 'module.py'],
+        [command, '--toml-config=flake8.toml', 'module.py'],
         'config_custom_file',
     )
     assert output == expected
@@ -88,7 +88,7 @@ def test_custom_file_target_absolut_path(command):
     fixture = 'config_custom_file'
     file_path  = Path(__file__).parent/'fixtures'/fixture/'flake8.toml'
     output = capture(
-        [command, '--pyproject-file', file_path, 'module.py'],
+        [command, '--toml-config', file_path, 'module.py'],
         fixture,
     )
     assert output == expected
