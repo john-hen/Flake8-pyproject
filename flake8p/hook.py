@@ -4,6 +4,7 @@
 # Imports                              #
 ########################################
 
+from . import meta
 import flake8.main.cli
 import flake8.options.config
 import sys
@@ -30,14 +31,18 @@ def parse_config(option_manager, cfg, cfg_dir):
     If we discover `pyproject.toml` in the current folder, we discard
     anything that may have been read from whatever other configuration
     file and read the `tool.flake8` section in `pyproject.toml` instead.
-    """
-    args = vars(option_manager.parser.parse_args())
-    custom_config_file = args.get('toml_config')
 
-    if custom_config_file:
-        file = Path(custom_config_file)
+    If a custom TOML file was specified via the `--toml-config`
+    command-line option, we read the section from that file instead.
+    """
+    arguments = option_manager.parser.parse_args()
+    if arguments.toml_config:
+        file = Path(arguments.toml_config)
+        if not file.exists():
+            raise FileNotFoundError(f'Plug-in {meta.title} could not find '
+                                    f'custom configuration file "{file}".')
     else:
-        file = Path.cwd() / 'pyproject.toml'
+        file = Path('pyproject.toml')
 
     if file.exists():
         with file.open('rb') as stream:
@@ -51,8 +56,6 @@ def parse_config(option_manager, cfg, cfg_dir):
                     value = str(value)
                 parser.set(section, key, value)
             (cfg, cfg_dir) = (parser, str(file.resolve().parent))
-    elif custom_config_file:
-        raise FileNotFoundError
 
     return flake8_parse_config(option_manager, cfg, cfg_dir)
 
