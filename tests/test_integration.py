@@ -1,10 +1,10 @@
 ﻿"""Integration tests for the package."""
 
 from pathlib import Path
-from subprocess import PIPE, run
+from subprocess import run, PIPE, STDOUT
 from sys import executable as python
-
 from pytest import mark
+
 
 expected = r"""
 module.py:1:71: E501 line too long (77 > 70 characters)
@@ -16,7 +16,8 @@ module.py:5:14: E221 multiple spaces before operator
 def capture(command, folder):
     if isinstance(folder, str):
         folder = Path(__file__).parent/'fixtures'/folder
-    process = run(command, stdout=PIPE, universal_newlines=True, cwd=folder)
+    process = run(command, stdout=PIPE, stderr=STDOUT,
+                  universal_newlines=True, cwd=folder)
     # From Python 3.7 on, use `text=True` instead of `universal newlines`.
     return process.stdout.strip()
 
@@ -61,6 +62,10 @@ def test_config_toml(command):
     output = capture([command, f'--toml-config={file.resolve()}', 'module.py'],
                      'config_toml')
     assert output == expected
+    file = file.with_name('does_not_exist.toml')
+    assert not file.exists()
+    output = capture([command, f'--toml-config={file.name}'], 'config_toml')
+    assert 'FileNotFoundError' in output
 
 
 @mark.parametrize('command', ['flake8', 'flake8p'])
