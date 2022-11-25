@@ -2,6 +2,6 @@
 
 title     = 'Flake8-pyproject'
 synopsis  = 'Flake8 plug-in loading the configuration from pyproject.toml'
-version   = '1.2.0'
+version   = '1.2.1'
 author    = 'John Hennig'
 license   = 'MIT'
