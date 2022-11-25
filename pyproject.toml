@@ -18,7 +18,7 @@ readme = 'PyPI.md'
 dynamic = ['version', 'description']
 requires-python = '>= 3.6'
 dependencies = [
-    'Flake8 >= 5, < 6',
+    'Flake8 >= 5, < 7',
     'TOMLi; python_version < "3.11"',
     'TOMLi < 2; python_version < "3.7"',
 ]
