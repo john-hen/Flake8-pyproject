@@ -1,0 +1,37 @@
+name: Test upstream changes
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    # Every day at 1 AM
+    - cron: '0 1 * * *'
+
+jobs:
+
+  flake8_main:
+
+    name: Flake8 main
+    runs-on: ubuntu-latest
+
+    # Uncomment to prevent failure from blocking
+    # continue-on-error: True
+
+    steps:
+      - name: Check out code.
+        uses: actions/checkout@v3
+
+      - name: Set up latest stable Python.
+        uses: actions/setup-python@v4
+        with:
+            python-version: "3.x"
+
+      - name: Install flake8 main
+        run:  pip install git+https://github.com/PyCQA/flake8.git
+
+      - name: Install package.
+        run:  pip install .[dev]
+
+      - name: Run tests.
+        run:  pytest
