@@ -95,16 +95,24 @@ run it on every `git commit`, add the following to your project's
 pre-commit configuration `.pre-commit-config.yaml`:
 
 ```yaml
--   repo: https://github.com/john-hen/Flake8-pyproject
-    rev: 1.0.1
-    hooks:
-    -   id: Flake8-pyproject
+- repo: https://github.com/john-hen/Flake8-pyproject
+  rev: 1.2.1
+  hooks:
+    - id: Flake8-pyproject
 ```
 
 Change the revision to whatever is the latest release version.
 
 Note that you could just use the pre-commit hook for Flake8 itself,
-and make sure this package here is installed, to get the same outcome.
+and make sure this package here is installed, to get the same outcome:
+
+```yaml
+- repo: https://github.com/pycqa/flake8
+  rev: 6.0.0
+  hooks:
+    - id: flake8
+      additional_dependencies: [Flake8-pyproject]
+```
 
 
 [![release](
