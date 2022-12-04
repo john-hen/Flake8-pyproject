@@ -8,7 +8,7 @@ proposal ([#234]) was closed as "too heated", subsequent feature
 and pull requests were marked as "spam" ([#1332], [#1421], [#1431],
 [#1447], [#1501]).
 
-*Flake8-pyproject* also has bad manners and force-feeds Flake8 the
+Flake8-pyproject also has bad manners and force-feeds Flake8 the
 spam it so despises. It registers itself as a Flake8 plug-in to
 seamlessly load the configuration from `pyproject.toml` when you
 run the `flake8` command.

@@ -8,7 +8,7 @@ proposal ([#234]) was closed as "too heated", subsequent feature
 and pull requests were marked as "spam" ([#1332], [#1421], [#1431],
 [#1447], [#1501]).
 
-*Flake8-pyproject* also has bad manners and force-feeds Flake8 the
+Flake8-pyproject also has bad manners and force-feeds Flake8 the
 spam it so despises. It registers itself as a Flake8 plug-in to
 seamlessly load the configuration from `pyproject.toml` when you
 run the `flake8` command.
@@ -90,22 +90,9 @@ when `pyproject.toml` isn't found.
 
 ## Pre-commit hook
 
-When using the `flake8p` (not `flake8`) entry point, and you want to
-run it on every `git commit`, add the following to your project's
-pre-commit configuration `.pre-commit-config.yaml`:
-
-```yaml
-- repo: https://github.com/john-hen/Flake8-pyproject
-  rev: 1.2.1
-  hooks:
-    - id: Flake8-pyproject
-```
-
-Change the revision to whatever is the latest release version.
-
-Note that you could just use the pre-commit hook for Flake8 itself,
-and make sure this package here is installed, to get the same outcome:
-
+Use the pre-commit hook for Flake8 itself and make sure this package
+here is installed as well. The pre-commit configuration, in
+`.pre-commit-config.yaml`, would then look like so:
 ```yaml
 - repo: https://github.com/pycqa/flake8
   rev: 6.0.0
@@ -113,6 +100,9 @@ and make sure this package here is installed, to get the same outcome:
     - id: flake8
       additional_dependencies: [Flake8-pyproject]
 ```
+
+Change the revision to whatever is the latest release version of
+Flake8.
 
 
 [![release](
