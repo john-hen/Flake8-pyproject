@@ -111,6 +111,3 @@ Flake8.
 [![coverage](
     https://img.shields.io/codecov/c/github/john-hen/Flake8-pyproject?token=30Gjak3Ksu)](
     https://codecov.io/gh/john-hen/Flake8-pyproject)
-[![quality](
-    https://img.shields.io/lgtm/grade/python/github/john-hen/Flake8-pyproject?label=quality)](
-    https://lgtm.com/projects/g/john-hen/Flake8-pyproject)
