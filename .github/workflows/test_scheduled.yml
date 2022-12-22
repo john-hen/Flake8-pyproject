@@ -1,0 +1,31 @@
+﻿# Regular tests against the current Flake8 main branch.
+name: Test nightly
+
+on:
+  schedule:
+    # Every day at 1 a.m.
+    - cron: '0 1 * * *'
+
+jobs:
+
+  flake8_main:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code.
+        uses: actions/checkout@v3
+
+      - name: Set up latest stable Python.
+        uses: actions/setup-python@v4
+        with:
+            python-version: '3.x'
+
+      - name: Install current Flake8 main branch.
+        run:  pip install git+https://github.com/PyCQA/flake8.git
+
+      - name: Install project.
+        run:  pip install .[dev]
+
+      - name: Run tests.
+        run:  pytest
