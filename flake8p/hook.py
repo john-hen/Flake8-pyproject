@@ -8,7 +8,6 @@ from . import meta
 import flake8.main.cli
 import flake8.options.aggregator
 import flake8.options.config
-import os
 import sys
 if sys.version_info >= (3, 11):
     import tomllib as toml
