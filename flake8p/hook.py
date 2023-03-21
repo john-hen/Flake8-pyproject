@@ -24,6 +24,7 @@ from pathlib import Path
 # Remember original Flake8 objects.
 flake8_aggregate_options = flake8.options.aggregator.aggregate_options
 flake8_parse_config = flake8.options.config.parse_config
+
 # Global variable pointing to TOML config.
 toml_config = Path('pyproject.toml')
 
@@ -36,12 +37,12 @@ def aggregate_options(manager, cfg, cfg_dir, argv):
     command-line option, its value is stored in a global variable for
     later consumption in parse_config().
 
-    Finally, Flake8's aggregate_options() is called as usual.
+    Finally, Flake8's `aggregate_options()` is called as usual.
     """
-    arguments = manager.parse_args(argv)
     global toml_config
+    arguments = manager.parser.parse_known_args(argv)[0]
     if arguments.toml_config:
-        toml_config = Path(arguments.toml_config).resolve()
+        toml_config = Path(arguments.toml_config)
         if not toml_config.exists():
             raise FileNotFoundError(
                 f'Plug-in {meta.title} could not find '
@@ -71,7 +72,7 @@ def parse_config(option_manager, cfg, cfg_dir):
                 if isinstance(value, (bool, int, float)):
                     value = str(value)
                 parser.set(section, key, value)
-            (cfg, cfg_dir) = (parser, str(toml_config.parent))
+            (cfg, cfg_dir) = (parser, str(toml_config.resolve().parent))
 
     return flake8_parse_config(option_manager, cfg, cfg_dir)
 
