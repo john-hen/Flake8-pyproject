@@ -42,8 +42,7 @@ def aggregate_options(manager, cfg, cfg_dir, argv):
     arguments = manager.parse_args(argv)
     global toml_config
     if arguments.toml_config:
-        toml_config = Path(
-            arguments.toml_config.replace('~', os.getenv('HOME'))).resolve()
+        toml_config = Path(arguments.toml_config).resolve()
         if not toml_config.exists():
             raise FileNotFoundError(
                 f'Plug-in {meta.title} could not find '
