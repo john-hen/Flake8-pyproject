@@ -6,6 +6,7 @@
 
 from . import meta
 import flake8.main.cli
+import flake8.options.aggregator
 import flake8.options.config
 import sys
 if sys.version_info >= (3, 11):
@@ -20,8 +21,32 @@ from pathlib import Path
 # Hook                                 #
 ########################################
 
-# Remember original Flake8 object.
+# Remember original Flake8 objects.
+flake8_aggregate_options = flake8.options.aggregator.aggregate_options
 flake8_parse_config = flake8.options.config.parse_config
+# Global variable pointing to TOML config.
+toml_config = Path('pyproject.toml')
+
+
+def aggregate_options(manager, cfg, cfg_dir, argv):
+    """
+    Overrides Flake8's option aggregation.
+
+    If a custom TOML file was specified via the `--toml-config`
+    command-line option, its value is stored in a global variable for
+    later consumption in parse_config().
+
+    Finally, Flake8's aggregate_options() is called as usual.
+    """
+    arguments = manager.parse_args(argv)
+    global toml_config
+    if arguments.toml_config:
+        toml_config = Path(arguments.toml_config).resolve()
+        if not toml_config.exists():
+            raise FileNotFoundError(
+                f'Plug-in {meta.title} could not find '
+                f'custom configuration file "{toml_config}".')
+    return flake8_aggregate_options(manager, cfg, cfg_dir, argv)
 
 
 def parse_config(option_manager, cfg, cfg_dir):
@@ -35,27 +60,18 @@ def parse_config(option_manager, cfg, cfg_dir):
     If a custom TOML file was specified via the `--toml-config`
     command-line option, we read the section from that file instead.
     """
-    arguments = option_manager.parser.parse_args()
-    if arguments.toml_config:
-        file = Path(arguments.toml_config)
-        if not file.exists():
-            raise FileNotFoundError(f'Plug-in {meta.title} could not find '
-                                    f'custom configuration file "{file}".')
-    else:
-        file = Path('pyproject.toml')
-
-    if file.exists():
-        with file.open('rb') as stream:
+    if toml_config.exists():
+        with toml_config.open('rb') as stream:
             pyproject = toml.load(stream)
         if 'tool' in pyproject and 'flake8' in pyproject['tool']:
-            parser  = configparser.RawConfigParser()
+            parser = configparser.RawConfigParser()
             section = 'flake8'
             parser.add_section(section)
             for (key, value) in pyproject['tool']['flake8'].items():
                 if isinstance(value, (bool, int, float)):
                     value = str(value)
                 parser.set(section, key, value)
-            (cfg, cfg_dir) = (parser, str(file.resolve().parent))
+            (cfg, cfg_dir) = (parser, str(toml_config.parent))
 
     return flake8_parse_config(option_manager, cfg, cfg_dir)
 
@@ -72,6 +88,7 @@ class Plugin:
     """
     @classmethod
     def add_options(cls, parser):
+        flake8.options.aggregator.aggregate_options = aggregate_options
         flake8.options.config.parse_config = parse_config
         parser.add_option(
             '--toml-config', metavar='TOML_COMFIG',
