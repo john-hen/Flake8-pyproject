@@ -92,7 +92,7 @@ class Plugin:
         flake8.options.aggregator.aggregate_options = aggregate_options
         flake8.options.config.parse_config = parse_config
         parser.add_option(
-            '--toml-config', metavar='TOML_COMFIG',
+            '--toml-config', metavar='TOML_CONFIG',
             default=None, action='store',
             parse_from_config=True,
             help='Path to custom TOML configuration file. May be located in a '
