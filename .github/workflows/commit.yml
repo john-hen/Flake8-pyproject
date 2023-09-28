@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Check out code.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python.
         uses: actions/setup-python@v4
@@ -35,18 +35,19 @@ jobs:
 
     strategy:
         matrix:
-            python: ['3.6', '3.7', '3.8', '3.9', '3.10', '3.11']
+            python: ['3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
 
     runs-on: ubuntu-20.04
 
     steps:
       - name: Check out code.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python ${{ matrix.python }}.
         uses: actions/setup-python@v4
         with:
             python-version: ${{ matrix.python }}
+            allow-prereleases: true
 
       - name: Install package.
         run:  pip install .[dev]
