@@ -1,25 +1,22 @@
 ﻿# Flake8-pyproject
 *Flake8 plug-in loading the configuration from `pyproject.toml`*
 
-[Flake8] cannot be configured via `pyproject.toml`, even though
-virtually all other Python dev tools have adopted it as the central
-location for project configuration. The discussion of the original
-proposal ([#234]) was closed as "too heated", subsequent feature
-and pull requests were marked as "spam" ([#1332], [#1421], [#1431],
-[#1447], [#1501]).
+[Flake8] cannot currently be configured via `pyproject.toml`, the file
+which has been [proposed by PEP-518 for tool configuration][pep518]
+and which has been adopted by many other Python code quality tools.
+Though the project has tentative plans to support `pyproject.toml`, it
+has been [considered blocked][blocked] on other tools' behavior for
+years.
 
-Flake8-pyproject also has bad manners and force-feeds Flake8 the
-spam it so despises. It registers itself as a Flake8 plug-in to
-seamlessly load the configuration from `pyproject.toml` when you
-run the `flake8` command.
+This means that developers wishing to consolidate their configuration
+files are still unable to fully do so. Enter Flake8-pyproject, which
+registers itself as a Flake8 plug-in and allows seamlessly loading the
+tool's configuration from `pyproject.toml` when you run the `flake8`
+command.
 
-[Flake8]: https://github.com/PyCQA/flake8
-[#234]:   https://github.com/PyCQA/flake8/issues/234
-[#1332]:  https://github.com/PyCQA/flake8/pull/1332
-[#1421]:  https://github.com/PyCQA/flake8/issues/1421
-[#1431]:  https://github.com/PyCQA/flake8/issues/1431
-[#1447]:  https://github.com/PyCQA/flake8/issues/1447
-[#1501]:  https://github.com/PyCQA/flake8/issues/1501
+[Flake8]:  https://github.com/PyCQA/flake8
+[pep518]:  https://peps.python.org/pep-0518/#tool-table
+[blocked]: https://github.com/PyCQA/flake8/issues/234#issuecomment-812800722
 
 
 ## Usage
