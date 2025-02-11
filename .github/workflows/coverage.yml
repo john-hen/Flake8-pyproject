@@ -11,14 +11,14 @@ jobs:
 
     strategy:
         matrix:
-            python: ['3.10', '3.11']
+            python: ['3.10', '3.13']
 
     steps:
       - name: Check out code.
         uses: actions/checkout@v4
 
       - name: Set up Python.
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
             python-version: ${{ matrix.python }}
 
