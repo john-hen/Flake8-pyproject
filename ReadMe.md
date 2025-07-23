@@ -1,25 +1,13 @@
 ﻿# Flake8-pyproject
 *Flake8 plug-in loading the configuration from `pyproject.toml`*
 
-[Flake8] cannot be configured via `pyproject.toml`, even though
-virtually all other Python dev tools have adopted it as the central
-location for project configuration. The discussion of the original
-proposal ([#234]) was closed as "too heated", subsequent feature
-and pull requests were marked as "spam" ([#1332], [#1421], [#1431],
-[#1447], [#1501]).
+[Flake8] currently does not support `pyproject.toml` natively.
 
-Flake8-pyproject also has bad manners and force-feeds Flake8 the
-spam it so despises. It registers itself as a Flake8 plug-in to
+Flake8-pyproject registers itself as a Flake8 plug-in to
 seamlessly load the configuration from `pyproject.toml` when you
 run the `flake8` command.
 
 [Flake8]: https://github.com/PyCQA/flake8
-[#234]:   https://github.com/PyCQA/flake8/issues/234
-[#1332]:  https://github.com/PyCQA/flake8/pull/1332
-[#1421]:  https://github.com/PyCQA/flake8/issues/1421
-[#1431]:  https://github.com/PyCQA/flake8/issues/1431
-[#1447]:  https://github.com/PyCQA/flake8/issues/1447
-[#1501]:  https://github.com/PyCQA/flake8/issues/1501
 
 
 ## Usage
