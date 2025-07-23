@@ -95,7 +95,7 @@ here is installed as well. The pre-commit configuration, in
 `.pre-commit-config.yaml`, would then look like so:
 ```yaml
 - repo: https://github.com/pycqa/flake8
-  rev: 6.0.0
+  rev: 7.2.0
   hooks:
     - id: flake8
       additional_dependencies: [Flake8-pyproject]

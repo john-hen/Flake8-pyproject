@@ -17,8 +17,7 @@ def capture(command, folder):
     if isinstance(folder, str):
         folder = Path(__file__).parent/'fixtures'/folder
     process = run(command, stdout=PIPE, stderr=STDOUT,
-                  universal_newlines=True, cwd=folder)
-    # From Python 3.7 on, use `text=True` instead of `universal newlines`.
+                  text=True, cwd=folder)
     return process.stdout.strip()
 
 
