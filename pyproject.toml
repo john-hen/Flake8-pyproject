@@ -37,6 +37,7 @@ Flake8-pyproject = 'flake8p:Plugin'
 
 [project.urls]
 Source = 'https://github.com/john-hen/Flake8-pyproject'
+Changelog = 'https://github.com/john-hen/Flake8-pyproject/blob/main/CHANGELOG.md'
 
 
 # Wheel builder: Flit
