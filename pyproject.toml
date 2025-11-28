@@ -1,9 +1,9 @@
 # Project information: PyPI and Pip
 
 [project]
-name = 'Flake8-pyproject'
-authors = [{name='John Hennig'}]
-license = {file='license.txt'}
+name     = 'Flake8-pyproject'
+authors  = [{name='John Hennig'}]
+dynamic  = ['version', 'description']
 keywords = ['Flake8', 'pyproject.toml']
 classifiers = [
     'Development Status :: 5 - Production/Stable',
@@ -14,8 +14,9 @@ classifiers = [
     'Framework :: Flake8',
     'License :: OSI Approved :: MIT License',
 ]
-readme = 'PyPI.md'
-dynamic = ['version', 'description']
+license = {file='license.txt'}
+readme  = 'PyPI.md'
+
 requires-python = '>= 3.6'
 dependencies = [
     'Flake8 >= 5',
@@ -36,7 +37,8 @@ flake8p = 'flake8p:main'
 Flake8-pyproject = 'flake8p:Plugin'
 
 [project.urls]
-Source = 'https://github.com/john-hen/Flake8-pyproject'
+Source   = 'https://github.com/john-hen/Flake8-pyproject'
+Releases = 'https://github.com/john-hen/Flake8-pyproject/releases'
 
 
 # Wheel builder: Flit
