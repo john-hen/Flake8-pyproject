@@ -42,7 +42,7 @@ Source = 'https://github.com/john-hen/Flake8-pyproject'
 # Wheel builder: Flit
 
 [build-system]
-requires = ['flit_core >= 3.4']
+requires      = ['flit_core >= 3.4']
 build-backend = 'flit_core.buildapi'
 
 [tool.flit.module]
@@ -52,10 +52,11 @@ name = 'flake8p'
 # Code linter: Flake8
 
 [tool.flake8]
-exclude = ['tests/fixtures', 'local', 'ignore']
+exclude = ['tests/fixtures']
 ignore = [
     'E221',                  # Multiple spaces before operator.
     'E226',                  # Missing whitespace around arithmetic operator.
+    'E272',                  # Multiple spaces before keyword.
 ]
 per-file-ignores = [
     '__init__.py:F401',      # Module imported but unused.
