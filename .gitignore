@@ -1,19 +1,16 @@
 # Build and test artifacts
-**/__pycache__
-**/.pytest_cache
-dist/
-tools/dist/
-tools/coverage/
-.coverage
-coverage.xml
+__pycache__/
+.pytest_cache/
+/.venv/
+/venv/
+/build/
+/dist/
 
-# Local developer tools and notes
-local/
-ignore/
-.vscode/
-.idea/
+# Editor configs
+/.vscode/
+/.idea/
 .spyproject
 
-# Files auto-created by operating system
-**/Thumbs.db
-**/.DS_Store
+# OS cruft
+Thumbs.db
+.DS_Store

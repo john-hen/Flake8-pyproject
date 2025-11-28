@@ -65,11 +65,16 @@ per-file-ignores = [
 # Test runner: pyTest
 
 [tool.pytest.ini_options]
-addopts = '--verbose'
-testpaths = ['tests']
-
-
-# Code coverage: Coverage.py
+testpaths            = ['tests']
+addopts              = ['--verbose']
+console_output_style = 'count'
 
 [tool.coverage.run]
-source = ['flake8p']
+source    = ['flake8p']
+data_file = 'build/coverage/.coverage'
+
+[tool.coverage.html]
+directory = 'build/coverage'
+
+[tool.coverage.xml]
+output = 'build/coverage/coverage.xml'
