@@ -88,23 +88,6 @@ when `pyproject.toml` isn't found.
 [PEP 680]:           https://www.python.org/dev/peps/pep-0680
 
 
-## Pre-commit hook
-
-Use the pre-commit hook for Flake8 itself and make sure this package
-here is installed as well. The pre-commit configuration, in
-`.pre-commit-config.yaml`, would then look like so:
-```yaml
-- repo: https://github.com/pycqa/flake8
-  rev: 6.0.0
-  hooks:
-    - id: flake8
-      additional_dependencies: [Flake8-pyproject]
-```
-
-Change the revision to whatever is the latest release version of
-Flake8.
-
-
 [![release](
     https://img.shields.io/pypi/v/Flake8-pyproject.svg?label=release)](
     https://pypi.python.org/pypi/Flake8-pyproject)
