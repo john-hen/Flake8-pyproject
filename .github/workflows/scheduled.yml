@@ -1,10 +1,10 @@
 ﻿# Regular tests against the current Flake8 main branch.
-name: Test nightly
+name: Test weekly
 
 on:
   schedule:
-    # Every day at 1 a.m.
-    - cron: '0 1 * * *'
+    # Every Saturday at 11:17 UTC.
+    - cron: '17 11 * * 6'
 
 jobs:
 
