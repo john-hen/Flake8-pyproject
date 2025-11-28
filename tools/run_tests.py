@@ -1,8 +1,9 @@
 ﻿"""Runs the test suite."""
 
 from subprocess import run
-from pathlib import Path
+from pathlib    import Path
 
-here = Path(__file__).resolve().parent
-root = here.parent
+
+root = Path(__file__).resolve().parent.parent
+
 run(['pytest'], cwd=root)
