@@ -26,6 +26,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+    'Flit       >= 3.4',
     'pyTest     >= 7',
     'pyTest-cov >= 7; python_version >= "3.10"',
 ]
