@@ -1,0 +1,53 @@
+﻿# Publish new release on PyPI.
+name: Publish release
+
+on: [workflow_dispatch]
+
+jobs:
+
+  build:
+      runs-on: ubuntu-latest
+      steps:
+
+        - name: Check out code.
+          uses: actions/checkout@v6
+
+        - name: Install Python.
+          uses: actions/setup-python@v6
+          with:
+            python-version: '3.14'
+
+        - name: Install project.
+          run:  pip install --editable .[dev]
+
+        - name: Build wheel.
+          run:  flit build --format wheel
+
+        - name: Store wheel.
+          uses: actions/upload-artifact@v4
+          with:
+            name: wheel
+            path: dist
+
+
+  publish:
+      needs:
+        - build
+      runs-on: ubuntu-latest
+      environment:
+          name: PyPI
+          url:  https://pypi.org/p/Flake8-pyproject
+      permissions:
+          id-token: write
+      steps:
+
+        - name: Download wheel.
+          uses: actions/download-artifact@v5
+          with:
+            name: wheel
+            path: dist
+
+        - name: Publish to PyPI.
+          uses: pypa/gh-action-pypi-publish@release/v1
+          with:
+            packages-dir: dist
