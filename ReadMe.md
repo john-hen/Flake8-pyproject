@@ -11,7 +11,7 @@ and pull requests were marked as "spam" ([#1332], [#1421], [#1431],
 Flake8-pyproject also has bad manners and force-feeds Flake8 the
 spam it so despises. It registers itself as a Flake8 plug-in to
 seamlessly load the configuration from `pyproject.toml` when you
-run the `flake8` command.
+run the `flake8` command in the same folder.
 
 [Flake8]: https://github.com/PyCQA/flake8
 [#234]:   https://github.com/PyCQA/flake8/issues/234
@@ -57,7 +57,7 @@ the `--toml-config` command-line option.
 For compatibility with earlier versions of this package, and perhaps
 extra reliability in terms of possible future breakage of the plug-in
 hook, the package also provides a `flake8p` command that could be
-called alternatively to lint the code.
+called alternatively.
 
 [TOML format]: https://toml.io
 
