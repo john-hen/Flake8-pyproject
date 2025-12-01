@@ -24,7 +24,7 @@ jobs:
           run:  flit build --format wheel
 
         - name: Store wheel.
-          uses: actions/upload-artifact@v4
+          uses: actions/upload-artifact@v5
           with:
             name: wheel
             path: dist
@@ -42,7 +42,7 @@ jobs:
       steps:
 
         - name: Download wheel.
-          uses: actions/download-artifact@v5
+          uses: actions/download-artifact@v6
           with:
             name: wheel
             path: dist
