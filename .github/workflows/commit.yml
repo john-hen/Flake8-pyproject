@@ -1,4 +1,4 @@
-﻿# Test commit on all supported platforms and Python versions.
+# Test commit on all supported platforms and Python versions.
 name: Test commit
 
 on: [push, pull_request, workflow_dispatch]
@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Check out code.
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Set up Python.
         uses: actions/setup-python@v6
@@ -41,7 +41,7 @@ jobs:
 
     steps:
       - name: Check out code.
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Set up Python ${{ matrix.python }}.
         uses: actions/setup-python@v6
